@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+    <form action="" method="get" id="search-form">
+        <div class="section">
+        <label for="q">搜索食材</label>
+        <input id="q" name="q" required placeholder="type a name">
+        </div>
+        <div class="button-group">
+            <button type="submit" id="btn-search">搜索</button>
+            <button type="button" id="get-all">所有食材</button>
+        </div>
+    </form>
+    <div id="output"></div>
+    <script>
+        // 将请求的JSON数据显示到HTML文档中
+        "use strict";
+        var searchForm=document.getElementById("search-form"),
+            searchField=document.getElementById('q'),
+            searchButton=document.getElementById("btn-search"),
+            getAllButton=document.getElementById("get-all"),
+            target=document.getElementById("output");
+        var data={};
+        var salad={
+            // 点击搜索按钮对应的函数
+            search:function(event){
+                var output=document.getElementById("output");
+                //需要检索的值
+                var searchValue=searchField.value,
+                    // 从json文件中找到食材条目
+                    fruit=data.fruit,
+                    count=fruit.length;
+                // 阻止默认行为
+                event.preventDefault();
+
+                // 初始化渲染区域
+                target.innerHTML="";
+                if(count>0&&searchValue!==""){
+                    for(let i=0;i<count;i++){
+                        var obj=fruit[i];
+                        var contain=obj.name.indexOf(searchValue);
+                        // 如果找到了就写入到DOM中
+                        if(contain!=-1){
+                            target.innerHTML+='<p>'+obj.name+' '+'<strong>'+obj.color+'</strong>'+'</p>';
+
+                        }
+                    }
+                } 
+            },
+
+            // 点击get-all按钮对应的函数
+            getAll:function(event){
+                var output=document.getElementById("output");
+                var searchValue=searchField.value,fruit=data.fruit, count=fruit.length;
+                // 阻止默认行为
+                event.preventDefault();
+                // 初始化渲染区域
+                target.innerHTML="";
+                if(count>0&&searchValue===""){
+                    for(let i=0;i<count;i++){
+                        var obj=fruit[i];
+                        target.innerHTML+='<p>'+obj.name+' '+'<strong>'+obj.color+'</strong>'+'</p>';
+                    }
+                } 
+            }
+        };
+        function callfun(getdata){
+            data=getdata;
+        }
+
+
+        // 绑定事件监听器,点击鼠标后调用函数请求JSON文件
+        searchButton.addEventListener("click",salad.search,false);
+        getAllButton.addEventListener("click",salad.getAll,false);
+    </script>
+    <!-- jsonp的方式请求本地json数据 -->
+    <script src="./Salad.json?callback=callfun" type="text/javascript"></script>
+    
+</body>
+</html>

@@ -1,0 +1,22 @@
+.header{
+  background-color: aliceblue;
+  text-align: center;
+}
+.section{
+  display: flex;
+}
+.section_left{
+  background-color: bisque;
+  width: 200px;
+  height: 600px;
+}
+.section_content{
+  background-color: azure;
+  height: 600px;
+  text-align: center;
+  flex: auto;
+}
+.footer{
+  background-color: aliceblue;
+  text-align: center;
+}

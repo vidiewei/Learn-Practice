@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>set frame color</title>
+
+    <script>
+        function setcolor(w){
+            var r=Math.floor((Math.random()*256)).toString(16);
+            var g=Math.floor((Math.random()*256)).toString(16);
+            var b=Math.floor((Math.random()*256)).toString(16);
+            var colorString='#'+r+g+b;
+            console.log(colorString);
+
+            w.document.write("<body bgcolor='"+colorString+"'>+</body>");
+            w.document.close();
+
+            // 调用框架的setTimeout方法时，其中的字符串将在框架的环境中执行
+            // 所以要给顶级窗口的属性加上前缀“parent”
+            w.setTimeout('parent.setcolor(parent.'+w.name+')'
+            ,1000);
+        }
+    </script>
+</head>
+<!-- frameset 在一个页面中设置一个或多个框架 不能嵌套在body标签里 -->
+<frameset rows="33%,33%,34%" cols="33%,33%,34%" 
+        onload="for(let i=0;i<4;i++) setcolor(frames[i]);">
+        <frame name="f1" src="javascript:''">
+        <frame name="f2" src="javascript:''">
+        <frame name="f3" src="javascript:''">
+        <frame name="f4" src="javascript:''">
+</frameset>
+</html>

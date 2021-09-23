@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布订阅模式</title>
+</head>
+<body>
+  <script src="./pubsub.js"></script>
+  <script>
+    // 测试代码
+    let pubObj = Pubsub;
+    // 1. 添加订阅者
+    pubObj.listen('red', function(size){
+      console.log(`A的尺码是${size}`);
+    })
+    pubObj.listen('black', function(size){
+      console.log(`B的尺码是${size}`);
+    })
+    // 2. 发布消息
+    pubObj.trigger('red',36);
+    pubObj.trigger('black',42);
+  </script>
+</body>
+</html>

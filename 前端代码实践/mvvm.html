@@ -1,0 +1,31 @@
+<!-- 简单实现双向数据绑定 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input"/>
+    <script>
+        const data={};
+        const input=document.getElementById("input");
+        // 监听data对象的‘text’属性值变化
+        // 发生改变时同时修改input框的内容
+        Object.defineProperty(data,'text',{
+            set(value){
+                input.value=value;
+                this.value=value;
+            }
+        });
+        // input文本框的事件绑定，当输入文本内容改变时触发
+        // 将data对象和input框的内容进行绑定
+        input.onchange=function(e){
+            data.text=e.target.value;
+            console.log(data);
+        }
+    </script>
+</body>
+</html>

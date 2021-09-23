@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="input">
+  <p id="p"></p>
+  <script>
+    // 获取DOM元素
+    let input = document.getElementById("input");
+    let p = document.getElementById("p");
+    // 初始化代理对象
+    let obj = {};
+    // 给obj增加代理对象
+    let newProxy = new Proxy(obj, {
+      get: (target, key, recevier)=>{
+        // console.log('get', target, key, recevier);
+        return Reflect.get(target, key, recevier);
+      },
+      set: (target, key, value, recevier)=>{
+        // console.log('set', target, key, value, recevier);
+        if(key==="text"){
+          p.innerText=value;
+        }
+        // 将变化反射回原有对象
+        return Reflect.set(target, key, value, recevier);
+      }
+    })
+
+    input.addEventListener('keyup', function(e){
+      // 修改代理对象的值
+      newProxy.text= e.target.value;
+      // console.log(e.target);
+    })
+  </script>
+</body>
+</html>

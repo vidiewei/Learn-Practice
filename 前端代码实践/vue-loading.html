@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vueExtend</title>
+    <script src="https:cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <Test :msg="message"/>
+    </div>
+    <script>
+        // Vue的extend原理，为什么Test组件可以使用？
+        // 通过Vue.extend返回了一个构造函数，该构造函数是组件的具体定义
+        // 通过Vue.component进行组件注册，当我们传入自定的组件的名称'Test'，
+        // 就将上一步定义的组件与自定义组件名联系在一起；然后自定义组件会被注册到全局组件Vue.components下面
+        
+        const component=Vue.extend({
+            template:'<div>{{msg}}</div>',
+            props:{
+                msg:{
+                    type:String
+                }
+            }
+        })
+        
+        Vue.component('Test',component);
+        new Vue({
+            el:"#root",
+            data(){
+                return{
+                    message:'test component'
+                }
+            }
+
+        })
+    </script>
+    
+</body>
+</html>

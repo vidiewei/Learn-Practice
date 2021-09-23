@@ -1,0 +1,70 @@
+<!-- 在屏幕上不断移动窗口 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 问题：Uncaught DOMException: Blocked a frame with origin "null" from accessing a cross-origin frame.
+        // 不同窗口会有跨域问题
+
+
+        // 动画初始值
+        var x=0,y=0,w=200,h=200; //窗口的位置和大小
+        var dx=5,dy=5; //窗口的速率
+        var interval=1000; //更新的毫秒数
+
+        // 创建要移动的窗口
+        var win=window.open("http://example.org","","width="+w+",height="+h);
+
+        
+        win.addEventListener('message',function(e){    
+            var value = e.data;
+            //子页面如果接收到的data的值是'return'，则调用返回方法向父页面发送数据
+            if (value != null){
+                console.log(value);
+                win.moveTo(value[0],value[1]);
+            }
+            else if (value != null && value.trim().length != 0) {
+                //do something      
+            }
+        }, false);
+
+        // 每隔指定的毫秒数就用setInterval()调用bounce()方法
+        // 保存返回值，用于停止动画
+        var intervalID=window.setInterval(bounce,interval);
+
+        // 每隔指定的毫秒数，就将窗口移动（dx,dy）个单位
+        // 当窗口到达屏幕的边界处时，它将弹回
+        function bounce(){
+            // 窗口关闭，停止动画
+            if(win.closed){
+                clearInterval(intervalID);
+                console.log("win.closed");
+                return;
+            }
+            
+            //如果达到右边界或左边界，就弹回
+            if((x+dx>(screen.availWidth-w))||(x+dx<0)) dx=-dx;
+
+            //如果达到上边界或下边界，就弹回
+            if((y+dy>(screen.availHeight-h))||(y+dy<0)) dy=-dy;
+
+            x+=dx;
+            y+=dy;
+
+            // 将窗口移动到新位置
+            message=[x,y];
+            window.postMessage(message, "http://example.org");
+        }
+    </script>
+
+    <form>
+        <input type="button" value="Stop" onclick="clearInterval(intervalID); win.close();">
+    </form>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anchors</title>
+</head>
+<body>
+    <a name="anchor1" href="https://baidu.com">Anchor1</a>
+    <a name="anchor2">Anchor2</a>
+    <button onclick="listAnchors(window.document)">listAnchor</button>
+    <script>
+        function listAnchors(d){
+            var newwin=window.open("","navwin","menubar=yes,scrollbars=yes,resizable=yes,"
+                +"width=800,height=300");
+            newwin.document.writeln("<h1>Navigation Window:<br>"+document.title+"</h1>");
+            //列出所有锚元素
+            for(let i=0;i<d.anchors.length;i++){
+                var a=d.anchors[i];
+                console.log(a.text);
+                var text=null;
+                if(a.text) text=a.text;
+                else if(a.innerText) text=a.innerText;
+                if((text=null)||(text=='')) text=a.name;
+
+                newwin.document.write('<a href="#'+a.name+'"'+'onclick="window.opener.location.href="'+
+                    a.href+'">');
+                newwin.document.write(text);
+                newwin.document.writeln('</a><br>');
+            }
+            newwin.document.close();
+        }
+    </script>
+</body>
+</html>

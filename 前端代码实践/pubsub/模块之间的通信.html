@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模块间通信</title>
+</head>
+<body>
+  <button id="count">点击</button>
+  <div id ="showCount"></div>
+  <script src="./pubsub.js"></script>
+  <script>
+    // 发布count的值
+    let a = (function (){
+      let count =0;
+      let button = document.getElementById("count");
+      button.onclick = function(){
+        Pubsub.trigger("add", count++);
+      }
+    })();
+    // 订阅count的值
+    let b = (function(){
+      let div = document.getElementById("showCount");
+      Pubsub.listen('add', function(count){
+        div.innerText = count;
+      })
+    })();
+  </script>
+</body>
+</html>
