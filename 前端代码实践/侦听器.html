@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id='app'>
+        <p>
+            你问的问题是：
+            <input type="text" v-model="question">
+        </p>
+        <p>{{answer}}</p>
+    </div>
+
+    <!-- 引入vue, axios, lodash -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axois.min.js"></script>
+    <script src="lodash.js"></script>
+    <script type="module">
+        var vm=new Vue({
+            el: '#app',
+            data(){
+                return {
+                    question:'',
+                    answer:'在你没提问之前，无法回答'
+                }
+            },
+            created:function(){
+                this.debounceGetAnswer=_.debounce(this,getAnswer,500)
+            },
+            watch:{
+                question: function(){
+                    // 防抖的处理
+                    this.answer='等待停止输入'
+                    this.debounceGetAnswer()
+                }
+            },
+            methods:{
+                getAnswer:function(){
+                    if(this.question.index('?')===-1){
+                        this.answer='问题没有问号'
+                        return 
+                    }
+                    this.answer='我正在思考中，请稍后...'
+                    var that=this
+                    axios.getAnswer('https://yesno.wtf/api').then(
+                        function(res){
+                            that.answer=_.capitalize(res.data.answer)
+                        }
+                    )
+                }
+
+                
+            }
+        })
+    </script>
+</body>
+</html>

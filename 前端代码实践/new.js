@@ -1,29 +1,20 @@
-/*
-new的模拟实现
-new的功能：创建一个用户定义的对象类型的实例或具有构造函数的内置对象类型之一
-*/
-
-function funcNew(){
-    var obj=new Object();
-    // 从参数中取出构造函数
-    var Constructor=arguments[0];
-    obj.__proto__=Constructor.prototype;
-    // 从参数中取出传入的其他参数
-    args=Array.prototype.slice.call(arguments,1);
-    var res=Constructor.apply(obj,args);
-    return typeof res==='object'?res:obj;
+// 手写实现new
+function myNew(){
+  // 创建一个空对象
+  let obj = new Object();
+  // 获取构造函数
+  let Con = Array.prototype.shift.call(arguments);
+  // 改变空对象的原型
+  obj.__proto__ = Con.prototype;
+  // 绑定this，执行构造函数
+  let result = Con.apply(obj, arguments);
+  // 确保new出来的是一个对象
+  return typeof result==='object'? result : obj;
 }
 
-// 测试一下
 function Person(name){
-    this.name=name;
-}
-Person.prototype.getName=function(){
-    return this.name;
+  this.name = name;
 }
 
-var p1=new Person('p1');
-console.log(p1.getName());
-
-var p2=funcNew(Person,'p2');
-console.log(p2.getName());
+let obj = myNew(Person, '2');
+console.log(obj); // Person { name: '2' }

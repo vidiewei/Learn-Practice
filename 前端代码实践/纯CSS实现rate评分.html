@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rate评分</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_2761195_yej3r2vyh.css">
+    <style>
+        /* 去除input默认样式 */
+        input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border:none;
+            cursor: none;
+        }
+        /* 全局css属性变量 */
+        :root {
+            /* 高亮颜色 */
+            --main: #ffa822;
+            /* 默认颜色 */
+            --basic: #999;
+        }
+        /* 在行上反向排列 */
+        .rate-content {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+        .rate-content input[name="rate"] {
+            font-family: "iconfont";
+            font-size: 30px;
+            padding-right: 10px;
+        }
+        .rate-content input[name="rate"]::after {
+            content: "\e645";
+            color: var(--basic);
+            /* 颜色过渡效果 */
+            transition: color .4s ease;
+            /* 放大效果 */
+            transform: scale(2);
+        }
+        /* 选中单个星星 */
+        input[name="rate"]:checked::after {
+            content: "\e73c";
+            color: var(--main);
+        }
+        /* 连同兄弟元素一起高亮（~代表后面的所有兄弟元素） */
+        input[name="rate"]:checked~input[name="rate"]::after {
+            content: "\e73c";
+            color: var(--main);
+        }
+        /* 鼠标移入时星星高亮 */
+        input[name="rate"]:hover::after {
+            content: "\e73c";
+            color: var(--main);
+        }
+         /* 鼠标移入时兄弟元素也一起高亮 */
+        input[name="rate"]:hover~input[name="rate"]::after {
+            content: "\e73c";
+            color: var(--main);
+        }
+    </style>
+</head>
+<body>
+    <div class="rate-content">
+        <input type="radio" name="rate">
+        <input type="radio" name="rate">
+        <input type="radio" name="rate">
+        <input type="radio" name="rate">
+        <input type="radio" name="rate">
+    </div>
+    
+</body>
+</html>

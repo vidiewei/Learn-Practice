@@ -1,0 +1,60 @@
+
+<html>
+<head>
+</head>
+<body>
+    <ul>
+        <input type="button" value="点击置零" id="btn0">
+        <input type="button" value="点击加一" id="btn1">
+        <input type="button" value="防抖点击" id="btn2">
+        <input type="button" value="节流点击" id="btn3">
+        <input type="text" value=0 id="input">
+    </ul>
+    <script>
+        const input=document.getElementById("input");
+        document.getElementById("btn0").addEventListener('click', zero);
+        document.getElementById("btn1").addEventListener('click', add);
+        document.getElementById("btn2").addEventListener('click', debounce(add,2000));
+        document.getElementById("btn3").addEventListener('click', throttle(add,2000));
+       
+        function zero(){
+            input.value=0;
+        }
+        function add(){
+            input.value++;
+        }
+        // 防抖：在设定时间内某个事件再次被触发，计时器重新清零开始计时，直到计时器计满，才执行该回调函数fn
+        function debounce(fn,delayTime){
+            // timer会存储在函数内部，需要一直保存timer这个变量
+            let timer=null;
+            // 使用闭包
+            return ()=>{
+                // 如果事件被触发，就将定时器清零，重新开始计时
+                if(timer){
+                    clearTimeout(timer);
+                } 
+                timer=setTimeout(fn,delayTime);  
+            }
+        }
+        // 节流：在设定时间内如果事件被多次触发，等到计时器计满，只执行一次回调函数fn，然后开始下一次计时
+        function throttle(fn,delayTime){
+            let timer=null;
+            return ()=>{
+                // 还在计时期间内
+                if(timer){
+                    return false;
+                }
+                // 可执行一次事件
+                timer=setTimeout(()=>{
+                    fn();
+                    // 事件执行完毕后清除计时器
+                    clearTimeout(timer);
+                    // timer=null;
+                },delayTime) 
+            }
+        }
+        
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=input, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="input" />
+    <script>
+        const data = {
+            t: '',
+        };
+        // 监听data对象的‘t’属性值变化
+        const input  = document.getElementById("input");
+        Object.defineProperty(data, 't', {
+            set(value){
+                input.value=value;
+                this.t = value;
+            }
+        });
+        // input文本框事件绑定
+        input.onchange=function(e){
+            data.t = e.target.value;
+            console.log(data);
+        }
+    </script>
+</body>
+</html>

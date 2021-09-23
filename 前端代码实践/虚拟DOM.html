@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .in{
+                width:500px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="test">
+            <input type="button" onclick="run()" value="添加div">
+            <input type="text" id="output" value="" class="in">
+            <input type="text" id="output1" value="" class="in">
+        </div>
+        <script>
+            // 比较虚拟DOM和真实DOM操作
+            // 实际上DOM操作并不慢，只是浏览器渲染慢
+            // 规模较小的时候虚拟DOM更快，规模大的时候反而虚拟DOM的各种创建操作会需要更多时间
+            // 所以说虚拟DOM快，实际上是可以通过diff算法减小时间复杂度
+            const n=100;
+            const test=document.getElementById("test");
+            const output=document.getElementById("output");
+            function run(){
+                const t1=performance.now();
+                for(let i=0;i<n;i++){
+                    const div=document.createElement('div');
+                    div.textContent=i;
+                    test.appendChild(div);
+                }
+                const t2=performance.now();
+                // js代码执行时间
+                output.value=`JS用时${t2-t1}秒`;
+                setTimeout(()=>{
+                    const t3=performance.now();
+                    // 浏览器渲染时间
+                    output1.value=`浏览器用时${t3-t1}秒`;
+                },0);
+            }
+        </script>
+
+    </body>
+</html>

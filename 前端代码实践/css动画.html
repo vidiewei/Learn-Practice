@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div class="rotate">rotate</div>
+    <div class="scale">scale</div>
+    <div class="translate">translate</div>
+    <div class="skew">skew</div>
+    <div class="animation">animation</div>
+    <div class="btn">btn</div>
+    <style>
+        div{
+            width: 100px;
+            height: 50px;
+            background-color: aquamarine;
+            border-radius: 10px;
+            margin: 50px;
+            text-align: center;
+            line-height: 50px;
+        }
+        /* hover表示鼠标悬浮时样式发生改变 */
+        /* 顺时针旋转90° */
+        .rotate:hover {
+            transform: rotate(90deg);
+        }
+        /* x,y轴方向都缩放1.5倍 */
+        .scale:hover {
+            transform: scale(1.5,1.5);
+        }
+        /* x,y方向都移动20px */
+        .translate:hover {
+            transform: translate(20px,20px);
+        }
+        /* x方向逆时针旋转20°，y方向逆时针旋转20° */
+        .skew:hover {
+            transform: skew(20deg,20deg);
+        }
+        /* 背景颜色发生渐变，持续时间为5秒 */
+        .animation:hover{
+            background-color: aquamarine;
+            animation: change_color 5s;
+        }
+        @keyframes change_color {
+            0%  {background: red;}
+            50% {background: wheat;}
+        }
+        .btn{
+            height:50px;
+            width:50px;
+            transform: scale(1,1);
+        }
+    </style>
+    <script>
+        let btn = document.getElementsByClassName("btn")[0];
+        let other = btn.parentNode;
+        let scaleSize = 1;
+        console.log(scaleSize);
+        btn.onclick = largeSize;
+        other.onclick = smallSize;
+        function largeSize(e){
+            if(e.target.className === "btn"){
+                scaleSize=scaleSize*2;
+                btn.style.transform = `scale(${scaleSize},${scaleSize})`;
+                console.log(btn.style.cssText);
+            }
+            
+        };
+        function smallSize(e){
+            if(e.target.className !== "btn"){
+                scaleSize=scaleSize*0.5;
+                btn.style.transform = `scale(${scaleSize},${scaleSize})`;
+                console.log(btn.style.cssText);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>三栏布局</title>
+</head>
+<body>
+    <div class="container">
+        <div class="left"></div>
+        <div class="mid"></div>
+        <div class="right"></div>
+    </div>
+    <style>
+        .container {
+            height: 100px;
+            display: flex;
+        }
+        .left {
+            width: 100px;
+            background-color: antiquewhite;
+        }
+        .mid {
+            /* 定义item的放大比例，默认为0，不放大 */
+            flex-grow: 1;
+            /* 定义item的缩小比例，默认为1，空间不足将缩小 */
+            flex-shrink: 1;
+            /* item占据的主轴空间，默认为auto */
+            flex-basis: auto;
+            background-color: aqua;
+        }
+        .right {
+            width: 100px;
+            background-color: antiquewhite;
+        }
+    </style>
+</body>
+</html>
