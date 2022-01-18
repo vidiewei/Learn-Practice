@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    p {
+      font-size: 30px;
+    }
+
+    /* 第一步声明字体 */
+    @font-face {
+      font-family: 'my-web-font';
+      src: url('webfont.eot'); /* IE9 */
+      src: url('webfont.eot?iefix') format('embedded-opentype'), /* IE6-IE8 */
+      url('webfont.woff') format('woff'), /* chorme、firefox */
+      url('webfont.ttf') format('truetype'), /* chorme、firefox、opera、safari、Android、IOS 4.2+ */
+      url('webfont.svg#webfont') format('svg'), /* IOS 4.1- */
+    }
+    /* 第二步定义一个类名，谁用这个类名，就会使用webfont字体 */
+    .webfont {
+      font-family: 'my-web-font';
+    }
+  </style> 
+</head>
+<body>
+  <!-- 第三步：引用webfont字体 -->
+  <p class="webfont">永不止步</p>
+</body>
+</html>

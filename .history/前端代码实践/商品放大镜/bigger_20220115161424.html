@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .box {
+        width: 350px;
+        height: 350px;
+        margin: 100px;
+        border: 1px solid #ccc;
+        position: relative;
+      }
+
+      /* 相对box盒子进行定位 */
+      .big {
+        width: 400px;
+        height: 400px;
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 0;
+        left: 360px;
+        overflow: hidden;
+        display: none;
+      }
+
+      /* 设置放大镜遮罩 */
+      .mask {
+        width: 175px;
+        height: 175px;
+        background: rgba(255, 255, 0, 0.4);
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: move;
+        display: none;
+      }
+
+      .small {
+        position: relative;
+        text-align: center;
+      }
+
+      .img {
+        vertical-align: top;
+      }
+    </style>
+
+    <script src="tools.js"></script>
+    <script>
+      window.onload = function() {
+        // 需求：鼠标放在商品小盒子上时，遮罩部分选中的区域会在大盒子里面进行放大
+        // 技术点：onmouseenter==onmouseover 第一个不冒泡
+        // 技术点：onmouseleave==onmouseout 第一个不冒泡
+        // 步骤：
+        // 1.鼠标放上去显示盒子，移开隐藏盒子
+        // 2.老三
+        // 3.右边的大盒子内图片等比例移动
+
+        // 0.获取相关元素
+      }
+    </script>
+  </head>
+  <body>
+    <div class="box">
+      <div class="small">
+        <img src="smallGoods.jpg"/>
+        <div class="mask"></div>
+      </div>
+      <div class="big">
+        <img src="goods.jpg" alt="">
+      </div>
+    </div>
+  </body>
+</html>

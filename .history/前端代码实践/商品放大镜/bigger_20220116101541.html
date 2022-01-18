@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .box {
+        width: 350px;
+        height: 350px;
+        margin: 100px;
+        border: 1px solid #ccc;
+        position: relative;
+      }
+
+      /* 相对box盒子进行定位 */
+      .big {
+        width: 400px;
+        height: 400px;
+        border: 1px solid #ccc;
+        position: absolute;
+        top: 0;
+        left: 360px;
+        overflow: hidden;
+        display: none;
+      }
+
+      /* 设置放大镜遮罩 */
+      .mask {
+        width: 175px;
+        height: 175px;
+        background: rgba(255, 255, 0, 0.4);
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: move;
+        display: none;
+      }
+
+      .small {
+        position: relative;
+        text-align: center;
+      }
+
+      .img {
+        vertical-align: top;
+      }
+    </style>
+
+    <script src="tools.js"></script>
+    <script>
+      window.onload = function() {
+        // 需求：鼠标放在商品小盒子上时，遮罩部分选中的区域会在大盒子里面进行放大
+        // 技术点：onmouseenter==onmouseover 第一个不冒泡
+        // 技术点：onmouseleave==onmouseout 第一个不冒泡
+        // 步骤：
+        // 1.鼠标放上去显示盒子，移开隐藏盒子
+        // 2.老三
+        // 3.右边的大盒子内图片等比例移动
+
+        // 0.获取相关元素
+        let box = document.getElementsByClassName("box")[0];
+        let small = box.firstElementChild || box.firstChild;
+        let big = box.children[1];
+        let mask = small.children[1];
+        let smallImg = small.children[0];
+        let bigImg = big.children[0];
+
+        // 鼠标放上去显示大图，移开则隐藏
+        small.addEventListener("mouseenter", function(){
+          show(mask);
+          show(big);
+        })
+
+        small.addEventListener("mouseleave", function(){
+          hide(mask);
+          hide(big);
+        })
+
+        // 在小图片里面移动鼠标
+        small.addEventListener("mousemove", function(event){
+          event = event || window.event;
+
+          // pagex是鼠标离整个页面左边的距离
+          let pagex = event.pageX || scroll().left + event.clientX;
+          let pagey = event.pageY || scroll().top + event.clientY;
+
+          // offesetLeft是box元素距离其定位父元素（整个页面）左边的距离
+          // x是mask距离小图左部的值，y是mask距离小图顶部的值
+          // 保证mask的中心是鼠标
+          let x = pagex - box.offsetLeft - mask.offsetWidth/2;
+          let y = pagey - box.offsetTop - mask.offsetHeight/2;
+
+          // 限制换盒子的范围
+          // left值>=0, 
+          if(x<0) {
+            x = 0;
+          }
+          if(x>small.offsetWidth - mask.offsetWidth) {
+            x = small.offsetWidth - mask.offsetWidth;
+          }
+          if(y<=0){
+            y=0;
+          }
+          if(y>small.offsetHeight - mask.offsetHeight){
+            y = small.offsetHeight - mask.offsetHeight;
+          }
+
+          // 移动mask，style.left 表示元素相对其父元素的左边的距离
+          mask.style.left = x+"px";
+          mask.style.top = y+"px";
+
+          // 3. 右侧的大图等比例移动
+          // 大图片走的距离/mask走的距离 = 大图片/小图片
+          let xRate = bigImg.offsetWidth/smallImg.offsetWidth;
+          let yRate = bigImg.offsetHeight/smallImg.offsetHeight;
+          let xx = xRate*x;
+          let yy = yRate*y;
+          bigImg.style.marginTop = -yy+"px";
+          bigImg.style.marginLeft = -xx+"px";
+        })
+
+      }
+    </script>
+  </head>
+  <body>
+    <div class="box">
+      <div class="small">
+        <img src="smallGoods.jpg"/>
+        <div class="mask"></div>
+      </div>
+      <div class="big">
+        <img src="goods.jpg" alt="放大的图片">
+      </div>
+    </div>
+  </body>
+</html>
